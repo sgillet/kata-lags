@@ -9,15 +9,25 @@ class Flight {
   }
 
   isCompatible(flightsPlan) {
-    let flightEndHour = flight.startHour + flight.duration;
+    try {
+      let flightEndHour = this.startHour + this.duration;
 
-    flightsPlan.forEach((plannedFlight) => {
-      if (this.startHour >= plannedFlight.startHour && this.startHour < plannedFlight.endHour) {
-        return false;
-      }
-    });
+      flightsPlan.forEach((plannedFlight) => {
+        if (this.startHour >= plannedFlight.startHour && this.startHour < plannedFlight.endHour) {
+          throw new Error('incompatible flight');
+        }
+      });
+      return true;
+    } catch(error) {
+      return false;
+    }
+  }
 
-    return true;
+  isBetterDeal(flights) {
+    if (!flights[0] || this.income > flights[0].income) {
+      return true;
+    }
+    return false;
   }
 }
 
@@ -32,17 +42,18 @@ class KataLags {
 
     flights.forEach((flight) => {
       if (!flight.isCompatible(flightsPlan)) {
+        if (flight.isBetterDeal(flightsPlan)) {
+          maxIncome = flight.income;
+          flightsPlan = [flight];
+        }
         return;
       }
-      if (flight.income > maxIncome) {
-        maxIncome += flight.income;
-        flightsPlan.push(flight);
-      }
+      maxIncome += flight.income;
+      flightsPlan.push(flight);
     });
 
     return maxIncome;
   }
-
 }
 
 module.exports = KataLags;

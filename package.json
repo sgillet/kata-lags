@@ -1,7 +1,7 @@
 {
   "name": "kata-lag",
   "version": "1.0.0",
-  "description": "Decimal number to roman numerals kata",
+  "description": "Get max income when selling flights",
   "main": "src/kata-lags.js",
   "scripts": {
     "test": "nyc --reporter=html mocha"
